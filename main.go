@@ -38,7 +38,7 @@ func main() {
 	fmt.Println(num3)
 
 	// var num4, num5 int = 40, 50
-	// 왈루스 기호
+	// 왈러스 기호
 	num4, num5 := 40, 50
 	fmt.Println(num4, num5)
 
@@ -90,7 +90,7 @@ func main() {
 	fmt.Printf("타입 생성: %T \n", MyInt(10))
 
 	// geth 코드 - 타입 사용 예시
-	// consensus\ethash\consensus.go, line: 42
+	// go-ethereum\consensus\ethash\consensus.go, line: 42
 	// *ethash: 현재 사용하지 않는 합의 알고리즘
 
 	// 산술 연산자
@@ -162,7 +162,7 @@ func main() {
 	**/
 
 	// geth 코드 - 연산자 사용 예시
-	// common\math\big.go, line: 32
+	// go-ethereum\common\math\big.go, line: 32
 	fmt.Println(strconv.FormatUint(uint64(^big.Word(0))>>63, 2))           // 1: 0000 0001
 	fmt.Println(strconv.FormatUint(32, 2))                                 // 32: 0010 0000
 	fmt.Println(strconv.FormatUint(32<<(uint64(^big.Word(0))>>63), 2))     // 64: 0100 0000
@@ -188,7 +188,7 @@ func main() {
 	fmt.Println(arr2)
 
 	// geth 코드 - 배열 사용 예시
-	// crypto\blake2b\blake2b_generic.go, line: 15
+	// go-ethereum\crypto\blake2b\blake2b_generic.go, line: 15
 
 	// 슬라이스: 동적 배열
 	// 슬라이스 선언 및 초기화
@@ -233,7 +233,7 @@ func main() {
 	fmt.Println(slice[0:1:3]) // [str, stop, cap]
 
 	// geth 코드 - 슬라이스 사용 예시
-	// common\types.go, line: 319
+	// go-ethereum\common\types.go, line: 319
 
 	// 맵: 키와 값 형태이며 순서를 보장하지 않는다.
 	// 맵 선언 및 초기화
@@ -267,7 +267,7 @@ func main() {
 	fmt.Println(isKey, value)
 
 	// geth 코드 - 맵 사용 예시
-	// eth\api_backend.go, line: 333
+	// go-ethereum\eth\api_backend.go, line: 333
 
 	// if 조건문
 	/**
@@ -303,5 +303,42 @@ func main() {
 	}
 
 	// geth 코드 - 조건문 사용 예시
-	// node\defaults.go, line: 80
+	// go-ethereum\node\defaults.go, line: 80
+
+	// 반복문
+	sum := 0
+	for i := 0; i < 10; i++ {
+		sum += i
+	}
+	fmt.Println(sum)
+
+	sum = 1
+	for sum < 1_000 {
+		sum += sum
+	}
+	fmt.Println(sum)
+
+	i := 1
+	for {
+		fmt.Println(i)
+		if i > 10 {
+			break
+		}
+		i++
+	}
+
+	for i := 1; i <= 10; i++ {
+		if i == 5 {
+			continue
+		}
+		fmt.Println(i)
+	}
+
+	for i, v := range [5]int{1, 2, 3, 4, 5} {
+		fmt.Printf("index: %d, value: %d \n", i, v)
+	}
+
+	// geth 코드 - 조건문 사용 예시
+	// go-ethereum\cmd\geth\main.go, line: 372
+
 }
