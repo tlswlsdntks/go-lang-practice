@@ -34,6 +34,28 @@ func addTwo(num *int) {
 	*num += 1
 }
 
+type Calculator struct {
+	X int
+}
+
+// 구조체의 복사본을 전달받아 사용
+func (c Calculator) add(x int) int {
+	c.X += x
+	return c.X
+}
+
+// 구조체의 주소를 전달받아 사용
+func (c *Calculator) add2(x int) int {
+	/*
+		c *Calculator 는 포인터 변수이다.
+		*c 는 포인터가 가리키는 구조체 값을 의미하며, 이 값을 통해 필드에 접근하려면 (*c).X 라고 써야 한다.
+		Go 에서는 c.X 가 (*c).X 와 동일하게 처리되기 때문에, 대부분 c.X 라고만 사용한다.
+	*/
+	// (*c).X += x
+	c.X += x
+	return c.X
+}
+
 func main() {
 	// 01. 첫 golang 프로그램 실행
 	/*
@@ -45,10 +67,13 @@ func main() {
 		go-path
 			go env
 			go env | grep GOPATH
-			C:\Users\tlswl\go 구성
-			bin: 빌드 후 실행파일 저장
-			src: 작성 공간
-			pkg: 프로그램 빌드할 때 생성된 파일?
+			C:\Users\tlswl\go 를 VSCode 에서 확인
+			bin: 소스 파일(패키지)를 컴파일하여 실행 파일(바이너리)이 생성되는 디렉터리이다.
+			pkg:
+				패키지를 컴파일하여 라이브러리 파일이 생성되는 디렉터리이고,
+				pkg 디렉터리 아래에는 <운영체제>_<아키텍쳐> 형식으로 디렉터리가 생성된다.
+				64비트 리눅스라면 linux_amd64 디렉터리 아래에 라이브러리 파일이 생성된다.
+			src: 내가 작성한 소스 파일과 인터넷에서 자동으로 받아온 소스 파일이 저장되는 디렉터리이다.
 	*/
 	fmt.Println("Hello, World!")
 
@@ -423,7 +448,7 @@ func main() {
 	/*
 		func 함수명(매개변수 매개변수타입) 리턴타입 {
 			실행문
-			return 리턴값
+			return 반환값
 		}
 	*/
 	fmt.Println(plus(42, 13))
@@ -442,4 +467,18 @@ func main() {
 	// geth 코드 - 함수 사용 예시
 	// go-ethereum\core\types\block.go, line: 243
 
+	// 12. 메서드: 구조체에 속한 함수
+	/*
+		func (리시버: 구조체) 메서드명(매개변수 매개변수타입) 반환타입 {
+			실행문
+			return 반환값
+		}
+	*/
+	// 구조체를 통한 호출
+	cal := Calculator{X: 10}
+	fmt.Println(cal.add(11))
+	fmt.Println(cal)
+
+	fmt.Println(cal.add2(11))
+	fmt.Println(cal)
 }
