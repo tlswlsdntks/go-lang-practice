@@ -8,7 +8,34 @@ import (
 	"strconv"
 )
 
+func plus(x int, y int) int {
+	return x + y
+}
+
+func minus(x int, y int) (val int) {
+	val = x - y
+	return
+}
+
+func calc(x int, y int) (int, int) {
+	return x + y, x - y
+}
+
+func myName() string {
+	name := "신진우"
+	return name
+}
+
+func addOne(num int) {
+	num += 1
+}
+
+func addTwo(num *int) {
+	*num += 1
+}
+
 func main() {
+	// 01. 첫 golang 프로그램 실행
 	/*
 		실행 순서
 			go build ./main.go
@@ -25,6 +52,7 @@ func main() {
 	*/
 	fmt.Println("Hello, World!")
 
+	// 02. 변수와 상수
 	var num int
 	fmt.Println(num)
 
@@ -94,6 +122,7 @@ func main() {
 	// go-ethereum\consensus\ethash\consensus.go, line: 42
 	// *ethash: 현재 사용하지 않는 합의 알고리즘
 
+	// 03. 연산자
 	// 산술 연산자
 	a, b := 10, 20
 	fmt.Println(a + b)
@@ -169,6 +198,7 @@ func main() {
 	fmt.Println(strconv.FormatUint(32<<(uint64(^big.Word(0))>>63), 2))     // 64: 0100 0000
 	fmt.Println(strconv.FormatUint((32<<(uint64(^big.Word(0))>>63))/8, 2)) // 8: 0000 1000
 
+	// 04. 배열
 	// 배열 선언 및 초기화
 	// var arr [3]int
 	arr := [3]int{1, 2, 3}
@@ -191,7 +221,7 @@ func main() {
 	// geth 코드 - 배열 사용 예시
 	// go-ethereum\crypto\blake2b\blake2b_generic.go, line: 15
 
-	// 슬라이스: 동적 배열
+	// 05. 슬라이스: 동적 배열
 	// 슬라이스 선언 및 초기화
 	// var s []int
 	s := []int{1, 2, 3}
@@ -236,7 +266,7 @@ func main() {
 	// geth 코드 - 슬라이스 사용 예시
 	// go-ethereum\common\types.go, line: 319
 
-	// 맵: 키와 값 형태이며 순서를 보장하지 않는다.
+	// 06. 맵: 키와 값 형태이며 순서를 보장하지 않는다.
 	// 맵 선언 및 초기화
 	var numMap = make(map[string]int)
 	numMap["one"] = 1
@@ -270,6 +300,7 @@ func main() {
 	// geth 코드 - 맵 사용 예시
 	// go-ethereum\eth\api_backend.go, line: 333
 
+	// 07. 조건문
 	// if 조건문
 	/*
 		if 초기문; 조건문 {
@@ -306,7 +337,7 @@ func main() {
 	// geth 코드 - 조건문 사용 예시
 	// go-ethereum\node\defaults.go, line: 80
 
-	// 반복문
+	// 08. 반복문
 	sum := 0
 	for i := 0; i < 10; i++ {
 		sum += i
@@ -342,7 +373,8 @@ func main() {
 	// geth 코드 - 조건문 사용 예시
 	// go-ethereum\cmd\geth\main.go, line: 372
 
-	/*	구조체 정의
+	// 09. 구조체
+	/*
 		type 타입명 struct {
 			필드명 타입
 			필드명 타입
@@ -374,7 +406,7 @@ func main() {
 	// geth 코드 - 구조체 사용 예시
 	// go-ethereum\core\types\block.go, line: 206
 
-	// 포인터
+	// 10. 포인터
 	numb := 1
 	var numpointer *int = &numb
 	fmt.Println(&numb)
@@ -386,6 +418,28 @@ func main() {
 
 	// geth 코드 - 구조체 사용 예시
 	// go-ethereum\core\types\state_account.go, line: 31
-	
+
+	// 11. 함수
+	/*
+		func 함수명(매개변수 매개변수타입) 리턴타입 {
+			실행문
+			return 리턴값
+		}
+	*/
+	fmt.Println(plus(42, 13))
+	fmt.Println(minus(42, 13))
+	fmt.Println(calc(42, 13))
+	// fmt.Println(name)
+
+	num01 := 1
+	addOne(num01)
+	fmt.Println(num01) // 1
+
+	num02 := 1
+	addTwo(&num02)
+	fmt.Println(num02) // 2
+
+	// geth 코드 - 함수 사용 예시
+	// go-ethereum\core\types\block.go, line: 243
 
 }
