@@ -374,4 +374,18 @@ func main() {
 	// geth 코드 - 구조체 사용 예시
 	// go-ethereum\core\types\block.go, line: 206
 
+	// 포인터
+	numb := 1
+	var numpointer *int = &numb
+	fmt.Println(&numb)
+	fmt.Println(*numpointer)
+
+	// 포인터로 값 변경
+	*numpointer = 2
+	fmt.Println(numb)
+
+	// geth 코드 - 구조체 사용 예시
+	// go-ethereum\core\types\state_account.go, line: 31
+	
+
 }
