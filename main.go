@@ -166,4 +166,34 @@ func main() {
 	fmt.Println(strconv.FormatUint(32, 2))                                 // 32: 0010 0000
 	fmt.Println(strconv.FormatUint(32<<(uint64(^big.Word(0))>>63), 2))     // 64: 0100 0000
 	fmt.Println(strconv.FormatUint((32<<(uint64(^big.Word(0))>>63))/8, 2)) // 8: 0000 1000
+
+	// 배열 선언
+	// var arr [3]int = [3]int{1, 2, 3}
+	arr := [3]int{1, 2, 3}
+
+	// 배열 타입/길이
+	fmt.Printf("%T \n", arr)
+	fmt.Println(len(arr))
+
+	// 배열에 값 저장
+	arr[0] = 1
+
+	// 배열 읽기
+	fmt.Println(arr)
+	fmt.Println(arr[0]) // 1
+
+	// 다중 배열
+	// var arr2 [3][3]int = [3][3]int{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}
+	arr2 := [3][3]int{
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8, 9},
+	}
+	fmt.Println(arr2[1][1]) // 5
+	arr2[2][2] = 10
+	fmt.Println(arr2)
+
+	// geth 코드 - 배열 사용 예시
+	// crypto\blake2b\blake2b_generic.go
+	// var precomputed = [10][16]byte{}
 }
