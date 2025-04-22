@@ -1,6 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math/big"
+	"strconv"
+)
 
 func main() {
 	/**
@@ -33,6 +37,7 @@ func main() {
 	fmt.Println(num3)
 
 	// var num4, num5 int = 40, 50
+	// 왈루스 기호
 	num4, num5 := 40, 50
 	fmt.Println(num4, num5)
 
@@ -77,14 +82,88 @@ func main() {
 
 	// 형 변환
 	var float1 float64 = 3.14
-	fmt.Printf("%T", int(float1))
+	fmt.Printf("형 변환: %T \n", int(float1))
 
 	// 타입 생성
 	type MyInt int
-	fmt.Println(MyInt(10))
-	fmt.Printf("%T", MyInt(10))
+	fmt.Printf("타입 생성: %T \n", MyInt(10))
 
-	// 타입 사용 예시
-	// C:\Users\tlswl\OneDrive\바탕 화면\이더리움(EVM) 기반 블록체인 개발 A to Z (feat. Solidity & Go) 초격차 패키지 Online\프로젝트\go-ethereum\consensus\ethash\consensus.go
+	// geth 코드 - 타입 사용 예시
+	// consensus\ethash\consensus.go
 	// *ethash: 현재 사용하지 않는 합의 알고리즘
+
+	// 산술 연산자
+	a, b := 10, 20
+	fmt.Println(a + b)
+	fmt.Println(a - b)
+	fmt.Println(a * b)
+	fmt.Println(a / b)
+	fmt.Println(a % b)
+	c := a % b
+	fmt.Println(c)
+
+	// 비교 연산자
+	fmt.Println(a == b)
+	fmt.Println(a != b)
+	fmt.Println(a < b)
+	fmt.Println(a > b)
+	fmt.Println(a <= b)
+	fmt.Println(a >= b)
+
+	// 대입 연산자
+	a = b
+	fmt.Println(a)
+
+	// 논리 연산자
+	fmt.Println(true && true)
+	fmt.Println(true && false)
+	fmt.Println(true || true)
+	fmt.Println(true || false)
+	fmt.Println(false || true)
+	fmt.Println(!true)
+
+	// 증감 연산자
+	a, b = 10, 20
+	a++
+	b--
+	b--
+	b--
+	b--
+	fmt.Println(a, b)
+
+	// 비트 연산자
+	a = 10             // 0000 1010
+	b = 30             // 0001 1110
+	fmt.Println(a & b) // 10: 0000 1010
+	fmt.Println(a | b) // 30: 0001 1110
+	fmt.Println(a ^ b) // 20: 0001 0100
+	fmt.Println(^b)    // 225: 1110 0001
+	// &^: 각 비트 단위로 첫 번째 자릿값이 1이고, 두번째 자리값이 0인 경우에만 1을 반환한다.
+	fmt.Println(a &^ b) // 0: 0000 0000
+	fmt.Println(b &^ a) // 20: 0001 0100
+
+	// 이진수 변환
+	fmt.Println(strconv.FormatInt(int64(a^b), 2)) // 20: 0001 0100
+
+	// 시프트 연산자
+	a = 10              // 0000 1010
+	fmt.Println(a << 3) // 80: 0101 0000
+	fmt.Println(a >> 3) // 1: 0000 0001
+
+	// 연산자 우선순위
+	/**
+		precedence  Operator
+		5			* / % << >> & &^
+		4			+ - | ^
+		3			== != < <= > >=
+		2			&&
+		1			||
+	**/
+
+	// geth 코드 - 연산자 사용 예시
+	// common\math\big.go
+	fmt.Println(strconv.FormatUint(uint64(^big.Word(0))>>63, 2))           // 1: 0000 0001
+	fmt.Println(strconv.FormatUint(32, 2))                                 // 32: 0010 0000
+	fmt.Println(strconv.FormatUint(32<<(uint64(^big.Word(0))>>63), 2))     // 64: 0100 0000
+	fmt.Println(strconv.FormatUint((32<<(uint64(^big.Word(0))>>63))/8, 2)) // 8: 0000 1000
 }
