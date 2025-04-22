@@ -1,11 +1,18 @@
+// 패키지 선언
 package main
 
+// 단일 패키지 가져오기
+// import "fmt"
+
+// 복수 패키지 가져오기
 import (
 	"encoding/json"
 	"fmt"
 	"math/big"
 	"runtime"
 	"strconv"
+
+	myfirstpkg "github.com/tlswlsdntks/go-lang-myfirstpkg"
 )
 
 func plus(x int, y int) int {
@@ -512,7 +519,7 @@ func main() {
 	fmt.Println(cal.add2(11))
 	fmt.Println(cal)
 
-	// 인터페이스: 덕 타이핑
+	// 13. 인터페이스: 덕 타이핑
 	// 사람이 오리처럼 행동하면 오리로 봐도 무방하다라는게 덕 타이핑(Duck Typing)이다.
 	// '객체를 미리 판단하지 않고 변수와 메서드가 사용되는 때에 객체를 판단하겠다'라는 의미이다.
 	/*
@@ -536,4 +543,31 @@ func main() {
 	// go-ethereum\consensus\consensus.go, line: 33
 	// go-ethereum\core\headerchain.go, line: 404
 
+	// 14. 패키지
+	/*
+		기본 제공 패키지
+			https://pkg.go.dev/std
+
+		패키지 목록
+			go env | grep GOROOT
+			C:\Program Files\Go\src
+
+		go mod: 모듈 관리 도구
+			프로젝트의 의존성(외부 라이브러리나 패키지)을 쉽게 관리할 수 있다.
+
+		외부 패키지 생성
+			go mod init github.com/{깃허브 아이디}/go-lang-myfirstpkg
+
+		원격 저장소 연동
+			git remote add origin git@github.com:tlswlsdntks/go-lang-myfirstpkg.git
+			git push -u origin main
+
+		외부 패키지 다운로드
+			go mod init go-lang-practice
+			go get github.com/{깃허브 아이디}/go-lang-myfirstpkg
+
+		외부 모듈 가져오기
+			import "github.com/{깃허브 아이디}/go-lang-myfirstpkg"
+	*/
+	myfirstpkg.MyFirstFunc()
 }
