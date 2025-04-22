@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"math/big"
 	"runtime"
@@ -8,7 +9,7 @@ import (
 )
 
 func main() {
-	/**
+	/*
 		실행 순서
 			go build ./main.go
 			./main.exe
@@ -21,7 +22,7 @@ func main() {
 			bin: 빌드 후 실행파일 저장
 			src: 작성 공간
 			pkg: 프로그램 빌드할 때 생성된 파일?
-	**/
+	*/
 	fmt.Println("Hello, World!")
 
 	var num int
@@ -59,7 +60,7 @@ func main() {
 	)
 	fmt.Println(iota1, iota2, iota3) // 0 1 2
 
-	/**
+	/*
 		자료형
 		bool
 		int8
@@ -79,7 +80,7 @@ func main() {
 		string
 		complex64
 		complex128
-	**/
+	*/
 
 	// 형 변환
 	var float1 float64 = 3.14
@@ -270,7 +271,7 @@ func main() {
 	// go-ethereum\eth\api_backend.go, line: 333
 
 	// if 조건문
-	/**
+	/*
 		if 초기문; 조건문 {
 			실행문
 		}
@@ -282,7 +283,7 @@ func main() {
 		} else {
 			실행문
 		}
-	**/
+	*/
 	if true {
 		fmt.Println("Hello World!")
 	}
@@ -340,5 +341,37 @@ func main() {
 
 	// geth 코드 - 조건문 사용 예시
 	// go-ethereum\cmd\geth\main.go, line: 372
+
+	/*	구조체 정의
+		type 타입명 struct {
+			필드명 타입
+			필드명 타입
+		}
+	*/
+	type Vertex struct {
+		X int `json:"x"`
+		Y int `json:"y"`
+	}
+
+	// 구조체 변수 선언 및 초기화
+	var v1 Vertex = Vertex{1, 2}
+	var v2 Vertex = Vertex{X: 1, Y: 2}
+	var v3 Vertex = Vertex{X: 1}
+	fmt.Println(v1)
+	fmt.Println(v2)
+	fmt.Println(v3) // {1 0}
+
+	// 구조체 필드 접근
+	v := Vertex{X: 10}
+	v.X = 10
+	v.Y = 20
+	fmt.Printf("X: %d, Y: %d \n", v.X, v.Y)
+
+	// 구조체의 json 형태 제공
+	data, _ := json.Marshal(v) // _(underscore): key 를 사용하지 않겠다는 의미
+	fmt.Println(string(data))  // {"x":10,"y":20}
+
+	// geth 코드 - 구조체 사용 예시
+	// go-ethereum\core\types\block.go, line: 206
 
 }
