@@ -9,17 +9,17 @@ import (
 func main() {
 	/**
 		실행 순서
-		go build ./main.go
-		./main.exe
-		go run main.go
+			go build ./main.go
+			./main.exe
+			go run main.go
 
-		GO-PATH
-		go env
-		go env | grep GOPATH
-		C:\Users\tlswl\go 구성
-		bin: 빌드 후 실행파일 저장
-		src: 작성 공간
-		pkg: 프로그램 빌드할 때 생성된 파일?
+		go-path
+			go env
+			go env | grep GOPATH
+			C:\Users\tlswl\go 구성
+			bin: 빌드 후 실행파일 저장
+			src: 작성 공간
+			pkg: 프로그램 빌드할 때 생성된 파일?
 	**/
 	fmt.Println("Hello, World!")
 
@@ -89,7 +89,7 @@ func main() {
 	fmt.Printf("타입 생성: %T \n", MyInt(10))
 
 	// geth 코드 - 타입 사용 예시
-	// consensus\ethash\consensus.go
+	// consensus\ethash\consensus.go, line: 42
 	// *ethash: 현재 사용하지 않는 합의 알고리즘
 
 	// 산술 연산자
@@ -161,26 +161,19 @@ func main() {
 	**/
 
 	// geth 코드 - 연산자 사용 예시
-	// common\math\big.go
+	// common\math\big.go, line: 32
 	fmt.Println(strconv.FormatUint(uint64(^big.Word(0))>>63, 2))           // 1: 0000 0001
 	fmt.Println(strconv.FormatUint(32, 2))                                 // 32: 0010 0000
 	fmt.Println(strconv.FormatUint(32<<(uint64(^big.Word(0))>>63), 2))     // 64: 0100 0000
 	fmt.Println(strconv.FormatUint((32<<(uint64(^big.Word(0))>>63))/8, 2)) // 8: 0000 1000
 
-	// 배열 선언
-	// var arr [3]int = [3]int{1, 2, 3}
+	// 배열 선언 및 초기화
+	// var arr [3]int
 	arr := [3]int{1, 2, 3}
 
 	// 배열 타입/길이
 	fmt.Printf("%T \n", arr)
 	fmt.Println(len(arr))
-
-	// 배열에 값 저장
-	arr[0] = 1
-
-	// 배열 읽기
-	fmt.Println(arr)
-	fmt.Println(arr[0]) // 1
 
 	// 다중 배열
 	// var arr2 [3][3]int = [3][3]int{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}
@@ -189,11 +182,55 @@ func main() {
 		{4, 5, 6},
 		{7, 8, 9},
 	}
-	fmt.Println(arr2[1][1]) // 5
 	arr2[2][2] = 10
+	fmt.Println(arr2[1][1])
 	fmt.Println(arr2)
 
 	// geth 코드 - 배열 사용 예시
-	// crypto\blake2b\blake2b_generic.go
-	// var precomputed = [10][16]byte{}
+	// crypto\blake2b\blake2b_generic.go, line: 15
+
+	// 슬라이스: 동적 배열
+	// 슬라이스 선언 및 초기화
+	// var s []int
+	s := []int{1, 2, 3}
+
+	// make(): 0 초기화
+	// s := make([]int, 3)
+
+	// 슬라이스 타입/길이
+	fmt.Printf("%T \n", s)
+	fmt.Println(len(s))
+
+	// 슬라이스에 값 추가
+	s = append(s, 4)
+	fmt.Println(s)
+
+	// 슬라이스 용량 지정
+	s2 := make([]int, 5, 5)
+	fmt.Println(s2)
+	fmt.Println(len(s2))
+	fmt.Println(cap(s2))
+
+	// 슬라이스 값 복사
+	dst := make([]int, 10)
+	cp := []int{1, 2, 3, 4, 5}
+	fmt.Println(dst)
+	copy(dst, cp)
+	fmt.Println(dst)
+
+	// 배열 슬라이싱: 슬라이스 변환
+	arr = [3]int{1, 2, 3}
+	slice := arr[0:3]
+	// fmt.Println(reflect.TypeOf(slice))
+	fmt.Printf("%T", slice)
+
+	// 슬라이스 슬라이싱
+	fmt.Println(slice[1:3])
+	fmt.Println(slice[1:])
+	fmt.Println(slice[:])
+	fmt.Println(slice[:3])
+	fmt.Println(slice[0:1:3]) // [str, stop, cap]
+
+	// geth 코드 - 슬라이스 사용 예시
+	// common\types.go, line: 319
 }
