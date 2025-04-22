@@ -233,4 +233,39 @@ func main() {
 
 	// geth 코드 - 슬라이스 사용 예시
 	// common\types.go, line: 319
+
+	// 맵: 키와 값 형태이며 순서를 보장하지 않는다.
+	// 맵 선언 및 초기화
+	var numMap = make(map[string]int)
+	numMap["one"] = 1
+	numMap["two"] = 2
+	numMap["three"] = 3
+	numMap["four"] = 4
+
+	numMap = map[string]int{
+		"one":   1,
+		"two":   2,
+		"three": 3,
+		"four":  4,
+	}
+	fmt.Println(numMap)
+
+	// 요소 추가
+	numMap["five"] = 5
+
+	// 요소 제거
+	delete(numMap, "five")
+
+	// 요소 접근
+	fmt.Println(numMap["one"])
+
+	// 요소 존재 여부 확인
+	value, isKey := numMap["one"]
+	fmt.Println(isKey, value)
+	value, isKey = numMap["five"]
+	fmt.Println(isKey, value)
+
+	// geth 코드 - 맵 사용 예시
+	// eth\api_backend.go, line: 333
+
 }
