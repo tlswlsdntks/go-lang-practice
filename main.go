@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math/big"
+	"runtime"
 	"strconv"
 )
 
@@ -268,4 +269,39 @@ func main() {
 	// geth 코드 - 맵 사용 예시
 	// eth\api_backend.go, line: 333
 
+	// if 조건문
+	/**
+		if 초기문; 조건문 {
+			실행문
+		}
+
+		if 조건문{
+			실행문
+		} else if {
+			실행문
+		} else {
+			실행문
+		}
+	**/
+	if true {
+		fmt.Println("Hello World!")
+	}
+	if num0 := 0; num0 < 1 {
+		fmt.Println("Hello")
+	} else {
+		fmt.Println("World!")
+	}
+
+	// switch 조건문
+	switch os := runtime.GOOS; os {
+	case "windows.":
+		fmt.Println("Windows")
+	case "linux":
+		fmt.Println("Linux")
+	default:
+		fmt.Printf("%s \n", os)
+	}
+
+	// geth 코드 - 조건문 사용 예시
+	// node\defaults.go, line: 80
 }
