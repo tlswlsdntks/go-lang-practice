@@ -56,6 +56,36 @@ func (c *Calculator) add2(x int) int {
 	return c.X
 }
 
+type Ducky interface {
+	DuckSound() string
+	DuckWalk() string
+	isSwim() string
+}
+
+type Bird struct {
+	name string
+}
+
+func (b Bird) DuckSound() string {
+	return "꽥꽥"
+}
+
+func (b Bird) DuckWalk() string {
+	return "뒤뚱뒤뚱"
+}
+
+func (b Bird) isSwim() string {
+	if b.name == "오리" {
+		return "있다"
+	} else {
+		return "없다"
+	}
+}
+
+func typeCheck(i interface{}) {
+	fmt.Printf("%T \n", i)
+}
+
 func main() {
 	// 01. 첫 golang 프로그램 실행
 	/*
@@ -120,14 +150,14 @@ func main() {
 		int16
 		int32
 		int64
-		unit16: unsigned(양수)
-		unit32
-		unit64
+		uint16: unsigned int(양수)
+		uint32
+		uint64
 		float32
 		float64
 		int
-		unit
-		unitptr
+		uint
+		uintptr
 		byte
 		rune
 		string
@@ -481,4 +511,29 @@ func main() {
 
 	fmt.Println(cal.add2(11))
 	fmt.Println(cal)
+
+	// 인터페이스: 덕 타이핑
+	// 사람이 오리처럼 행동하면 오리로 봐도 무방하다라는게 덕 타이핑(Duck Typing)이다.
+	// '객체를 미리 판단하지 않고 변수와 메서드가 사용되는 때에 객체를 판단하겠다'라는 의미이다.
+	/*
+		type 인터페이스명 interface {
+			메서드 집합
+		}
+	*/
+	duck := Bird{"오리"}
+	fmt.Printf("%s는 %s하고 울며, %s하고 걸으며 수영을 할 수 %s. \n", duck.name, duck.DuckSound(), duck.DuckWalk(), duck.isSwim())
+
+	typeCheck(int8(1))
+	typeCheck(int16(2))
+	typeCheck(int32(3))
+	typeCheck(int64(4))
+	typeCheck(uint8(5))
+	typeCheck(uint16(6))
+	typeCheck(uint32(7))
+	typeCheck(uint64(8))
+
+	// geth 코드 - 인터페이스 사용 예시
+	// go-ethereum\consensus\consensus.go, line: 33
+	// go-ethereum\core\headerchain.go, line: 404
+
 }
