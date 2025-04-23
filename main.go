@@ -93,6 +93,41 @@ func typeCheck(i interface{}) {
 	fmt.Printf("%T \n", i)
 }
 
+// 지연된 함수의 인수는 defer 문이 평가될 때, 평가된다.
+func deferA() {
+	i := 0
+	defer fmt.Println(i)
+	i++
+	return
+}
+
+// 지연된 함수의 호출은 주변 함수가 반환된 후, 후입선출 순서로 실행된다.
+func deferB() {
+	for i := 0; i < 4; i++ {
+		defer fmt.Println(i)
+	}
+}
+
+// 지연된 함수는 반환하는 함수의 명명된 반환 값을 읽고 할당할 수 있다.
+func deferC() (i int) {
+	defer func() {
+		i++
+		fmt.Println(i)
+	}() // (): 익명함수 즉시 실행
+	return 1
+}
+
+// 가변 인자: 매개변수타입은 슬라이스 타입으로 지정
+func numbers(nums ...int) {
+	fmt.Println(nums)
+	fmt.Printf("%T \n", nums)
+}
+
+func strings(str ...string) {
+	fmt.Println(str)
+	fmt.Printf("%T \n", str)
+}
+
 func main() {
 	// 01. 첫 golang 프로그램 실행
 	/*
@@ -112,7 +147,7 @@ func main() {
 				64비트 리눅스라면 linux_amd64 디렉터리 아래에 라이브러리 파일이 생성된다.
 			src: 내가 작성한 소스 파일과 인터넷에서 자동으로 받아온 소스 파일이 저장되는 디렉터리이다.
 	*/
-	fmt.Println("Hello, World!")
+	fmt.Println("Hello, World")
 
 	// 02. 변수와 상수
 	var num int
@@ -231,7 +266,7 @@ func main() {
 	fmt.Println(a | b) // 30: 0001 1110
 	fmt.Println(a ^ b) // 20: 0001 0100
 	fmt.Println(^b)    // 225: 1110 0001
-	// &^: 각 비트 단위로 첫 번째 자릿값이 1이고, 두번째 자리값이 0인 경우에만 1을 반환한다.
+	// &^: 각 비트 단위로 첫 번째 자릿값이 1이고, 두 번째 자리값이 0인 경우에만 1을 반환한다.
 	fmt.Println(a &^ b) // 0: 0000 0000
 	fmt.Println(b &^ a) // 20: 0001 0100
 
@@ -378,12 +413,12 @@ func main() {
 		}
 	*/
 	if true {
-		fmt.Println("Hello World!")
+		fmt.Println("Hello World")
 	}
 	if num0 := 0; num0 < 1 {
 		fmt.Println("Hello")
 	} else {
-		fmt.Println("World!")
+		fmt.Println("World")
 	}
 
 	// switch 조건문
@@ -570,4 +605,60 @@ func main() {
 			import "github.com/{깃허브 아이디}/go-lang-myfirstpkg"
 	*/
 	myfirstpkg.MyFirstFunc()
+
+	// 15. 함수의 기능
+	// defer: stack 과 같음, 후입선출(LIFO)
+	defer fmt.Println("마지막으로 실행")
+	defer fmt.Println("세 번째로 실행")
+	defer fmt.Println("두 번째로 실행")
+	fmt.Println("첫 번째로 실행")
+
+	// 지연된 함수의 인수의 평가
+	deferA()
+
+	// 지연된 함수의 호출
+	deferB()
+
+	// 지연된 함수는 반환값 할당
+	deferC()
+
+	// 가변 인자
+	numbers(1, 2, 3, 4, 5)
+	strings("a", "b", "c")
+
+	// 함수 리터럴
+	/*
+		익명 함수
+		func () {
+			코드
+		}
+
+		익명 함수를 변수에 대입
+		f := func () {
+			코드
+		}
+		f(): 함수 호출
+
+		직접 호출
+		func () {
+			코드
+		}()
+	*/
+	func() {
+		fmt.Println("Hello World")
+	}()
+
+	// 캡쳐: 익명 함수는 외부 변수를 참조값으로 가져옴
+	i = 0
+	func() {
+		i++
+	}()
+	fmt.Println(i)
+
+	// 혹은 포인터를 이용해야함
+	addTwo(&i)
+	fmt.Println(i)
+
+	// geth 코드 - 함수의 기능 사용 예시
+	// go-ethereum\core\state\statedb.go, line: 551
 }
