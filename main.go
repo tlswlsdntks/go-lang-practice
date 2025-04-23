@@ -7,6 +7,7 @@ package main
 // 복수 패키지 가져오기
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"math/big"
 	"runtime"
@@ -126,6 +127,17 @@ func numbers(nums ...int) {
 func strings(str ...string) {
 	fmt.Println(str)
 	fmt.Printf("%T \n", str)
+}
+
+func devide(x int, y int) int {
+	return x / y
+}
+
+func devide2(x int, y int) (int, error) {
+	if y == 0 {
+		return 0, fmt.Errorf("Error: divide by zero")
+	}
+	return x / y, nil
 }
 
 func main() {
@@ -661,4 +673,34 @@ func main() {
 
 	// geth 코드 - 함수의 기능 사용 예시
 	// go-ethereum\core\state\statedb.go, line: 551
+
+	// 16. 에러 처리
+	val := devide(10, 0) // panic: runtime error: integer divide by zero, src\runtime\panic.go, line: 236, 239
+	fmt.Println(val)
+	val, err := fmt.Println(devide2(10, 0))
+	fmt.Println(val, err)
+
+	// 에러 생성
+	fmt.Println(errors.New("error message"))
+	fmt.Println(fmt.Errorf("error message"))
+
+	// 패닉 발생: 시스템 중단
+	val, err = devide2(10, 0)
+	if err != nil {
+		panic("Error: Something went wrong")
+	} else {
+		fmt.Println(val)
+	}
+
+	// defer 함수를 사용하여 패닉을 반환하고, 복구
+	defer func() {
+		r := recover()
+		fmt.Println(r) // Error: Something went wrong
+		fmt.Println("Recovered from panic")
+	}()
+	panic("Error: Something went wrong")
+
+	// geth 코드 - 에러 처리 사용 예시
+	// go-ethereum\cmd\geth\consolecmd.go, line: 70
+
 }
