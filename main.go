@@ -12,6 +12,7 @@ import (
 	"math/big"
 	"runtime"
 	"strconv"
+	"sync"
 
 	myfirstpkg "github.com/tlswlsdntks/go-lang-myfirstpkg"
 )
@@ -46,13 +47,13 @@ type Calculator struct {
 	X int
 }
 
-// 구조체의 복사본을 전달받아 사용
+// 리시버에 구조체의 복사본을 전달받아 사용
 func (c Calculator) add(x int) int {
 	c.X += x
 	return c.X
 }
 
-// 구조체의 주소를 전달받아 사용
+// 리시버에 구조체의 주소를 전달받아 사용
 func (c *Calculator) add2(x int) int {
 	/*
 		c *Calculator 는 포인터 변수이다.
@@ -138,6 +139,41 @@ func devide2(x int, y int) (int, error) {
 		return 0, fmt.Errorf("Error: divide by zero")
 	}
 	return x / y, nil
+}
+
+func printHorizon() {
+	for i := 0; i < 300; i++ {
+		fmt.Print("==")
+	}
+}
+
+func printVertical() {
+	for i := 0; i < 300; i++ {
+		fmt.Print("||")
+	}
+}
+
+func printLine(l string, w *sync.WaitGroup) {
+	defer w.Done() // 종료를 지연
+	for i := 0; i < 300; i++ {
+		fmt.Print(l)
+	}
+}
+
+func checkOne(num int, c chan bool) {
+	if num == 1 {
+		c <- true
+	} else {
+		c <- false
+	}
+}
+
+func checkTwo(num int, c chan string) {
+	if num == 1 {
+		c <- "ok"
+	} else {
+		c <- "not ok"
+	}
 }
 
 func main() {
@@ -553,7 +589,7 @@ func main() {
 
 	// 12. 메서드: 구조체에 속한 함수
 	/*
-		func (리시버: 구조체) 메서드명(매개변수 매개변수타입) 반환타입 {
+		func (리시버: 해당 타입에 메서드를 연결하는 역할: "this" 또는 "self"와 유사한 개념) 메서드명(매개변수 매개변수타입) 반환타입 {
 			실행문
 			return 반환값
 		}
@@ -675,9 +711,9 @@ func main() {
 	// go-ethereum\core\state\statedb.go, line: 551
 
 	// 16. 에러 처리
-	val := devide(10, 0) // panic: runtime error: integer divide by zero, src\runtime\panic.go, line: 236, 239
-	fmt.Println(val)
-	val, err := fmt.Println(devide2(10, 0))
+	// val := devide(10, 0) // panic: runtime error: integer divide by zero, src\runtime\panic.go, line: 236, 239
+	// fmt.Println(val)
+	val, err := devide2(10, 0)
 	fmt.Println(val, err)
 
 	// 에러 생성
@@ -685,22 +721,64 @@ func main() {
 	fmt.Println(fmt.Errorf("error message"))
 
 	// 패닉 발생: 시스템 중단
-	val, err = devide2(10, 0)
-	if err != nil {
-		panic("Error: Something went wrong")
-	} else {
-		fmt.Println(val)
-	}
+	// val, err = devide2(10, 0)
+	// if err != nil {
+	// 	panic("Error: Something went wrong")
+	// } else {
+	// 	fmt.Println(val)
+	// }
 
 	// defer 함수를 사용하여 패닉을 반환하고, 복구
 	defer func() {
 		r := recover()
-		fmt.Println(r) // Error: Something went wrong
-		fmt.Println("Recovered from panic")
+		if r != nil {
+			fmt.Println(r)
+			fmt.Println("Recovered from panic")
+		}
 	}()
-	panic("Error: Something went wrong")
+	// panic("Error: Something went wrong")
 
 	// geth 코드 - 에러 처리 사용 예시
 	// go-ethereum\cmd\geth\consolecmd.go, line: 70
 
+	// 17. 고루틴(goroutine)
+	// 		Go 언어에서 제공하는 경량 스레드로, 매우 적은 메모리 오버헤드로 동시에 여러 작업을 수행할 수 있게 해준다.
+	// go printHorizon()
+	// printVertical()
+	// go printVertical()
+
+	// sync.WaitGroup: 여러 고루틴(goroutine)이 모두 작업을 마칠 때까지 기다리도록 도와주는 동기화 도구
+	var wg sync.WaitGroup
+	// Add(delta int): 고루틴 수를 추가하거나 제거
+	wg.Add(2)
+	// go printHorizon()
+	// go printVertical()
+	go printLine("==", &wg)
+	go printLine("||", &wg)
+	// Wait(): 모든 등록된 작업이 끝날 때까지 블록되어 기다린다.
+	wg.Wait()
+
+	// 채널: 고루틴 간 통신을 위해 채널을 사용하며, 안전하고 효율적인 데이터 전달을 가능하게 한다.
+	/*
+		make() 함수: 슬라이스, 맵, 채널과 같은 내부 데이터 구조를 초기화하는 데 사용
+		slice := make([]int, 길이, 용량)
+		map := make(map[string]int)
+		channel := make(chan int, 버퍼크기)
+	*/
+	num = 0
+	ch := make(chan bool)
+	fmt.Print("Enter a number: ")
+	fmt.Scan(&num)
+	go checkOne(num, ch)
+	fmt.Println(<-ch)
+
+	num = 0
+	ch2 := make(chan string)
+	fmt.Print("Enter a number: ")
+	fmt.Scan(&num)
+	go checkTwo(num, ch2)
+	fmt.Println(<-ch2)
+
+	// geth 코드 - 고루틴 사용 예시
+	// go-ethereum\eth\backend.go, line: 409
 }
